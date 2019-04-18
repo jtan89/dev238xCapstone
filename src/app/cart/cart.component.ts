@@ -70,7 +70,7 @@ export class CartComponent implements OnInit {
     this.orderSubmitted = true;
     if (isValid && this.customerCart.length) {
       this.orderSuccess = true;
-      console.log('form is valid');
+      // console.log('form is valid');
     } else {
       this.orderSuccess = false;
     }

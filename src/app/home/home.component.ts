@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
     if (this.productsService.hasData()) {
       this.slides = this.productsService.cachedProductData;
-      console.log('retrieved cached product data from ProductService');
+      // console.log('retrieved cached product data from ProductService');
     } else {
       this.productsService.getData()
       .subscribe((data) => {
