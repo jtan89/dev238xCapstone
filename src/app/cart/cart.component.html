@@ -1,0 +1,228 @@
+<!-- rubric56
+The cart page is accessible at http://localhost:8080/#/cart  -->
+<!-- rubric80
+Used jQuery or Angular for data binding  -->
+<div class="container custom-row">
+    <h1 class="cart-header">Shopping Cart</h1>
+    <div class="row custom-row">
+
+
+        <div class="col" *ngIf="!customerCart.length">Your shopping cart is empty.</div>
+        <!-- rubric47
+        The user should a table displaying the product image, name, unit
+        price, quantity as an input field, total cost, and a remove button
+        for each product in the shopping cart.  -->
+        <div [hidden]="orderSuccess" *ngIf="customerCart.length" class="col-md-8 col-xs-8 table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let product of customerCart; let i=index;">
+                    <td><img [src]="product.imagelink" width="50"></td>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        {{ product.price | currency: "$" }}
+                    </td>
+                    <!-- rubric55
+                    The cost column in the table should update if the quantity input
+                    field is changed  -->
+                    <td>
+                        {{ product.quantity}}
+                        <button (click)="subtractQuantity(product)">-</button>
+                        <button (click)="addQuantity(product)">+</button>
+                    </td>
+                    <td>
+                        {{ product.cartPrice | currency:"$" }}
+                    </td>
+                    <!-- rubric54
+                    The remove button should remove an item from the shopping
+                    cart  -->
+                    <td><button (click)="removeProduct(i)">Remove</button></td>
+                </tr>
+            </table>
+            <div>
+                <hr>
+                <!-- rubric49
+                The user should see a section showing the subtotal cost of all the
+                items in the shopping cart, the shipping cost, the tax cost, and a
+                total cost of all of the items in the shipping cost.  -->
+                <!-- rubric53
+                The cost details section should update if any items are removed
+                from the shopping cart of if any of the item quantities are
+                updated -->
+                <table class="table table-borderless">
+                    <tr>
+                        <td>
+                            Subtotal
+                        </td>
+                        <td class="text-right">
+                            {{ subTotal | currency: "$" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tax (10%)
+                        </td>
+                        <td class="text-right">
+                            {{ taxTotal | currency: "$" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Shipping Cost
+                        </td>
+                        <td class="text-right">
+                            $10.00
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Order Total
+                        </td>
+                        <td class="text-right">
+                            {{ cartTotal | currency: "$" }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="customerCart.length" class="col">
+            <h2>Enter Shipping Details</h2>
+            <!-- rubric48
+            The user should see a form labeled “Enter Shipping Details” that
+            has text input fields for the users name, address, city, and phone
+            number. These input fields should have placeholders that show
+            what they represent.  -->
+            <div [hidden]="orderSuccess">
+                <form #userForm="ngForm" (submit)="checkOut(userForm.valid)" novalidate>
+                    <!-- {{ userModel | json}} -->
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your Name" class="form-control" [class.is-invalid]="name.invalid && orderSubmitted"
+                            name="name" required ngModel #name="ngModel" [(ngModel)]="userModel.name" />
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="name.valid || !orderSubmitted">A Name is
+                            required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address Line</label>
+                        <input type="text" placeholder="Your Address" class="form-control" [class.is-invalid]="address.invalid && orderSubmitted"
+                            name="address" required ngModel #address="ngModel" [(ngModel)]="userModel.address"/>
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="address.valid || !orderSubmitted">An Address is
+                            required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" placeholder="Your City" class="form-control" [class.is-invalid]="city.invalid && orderSubmitted"
+                            name="city" required ngModel #city="ngModel" [(ngModel)]="userModel.city"/>
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="city.valid || !orderSubmitted">A City is
+                            required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>State/Province</label>
+                        <input type="text" placeholder="State or Province" class="form-control" [class.is-invalid]="city.invalid && orderSubmitted"
+                            name="state" required ngModel #state="ngModel" [(ngModel)]="userModel.state"/>
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="state.valid || !orderSubmitted">A State/Province is
+                            required</small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" placeholder="Country" class="form-control" [class.is-invalid]="country.invalid && orderSubmitted"
+                            name="country" required ngModel #country="ngModel" [(ngModel)]="userModel.country"/>
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="country.valid || !orderSubmitted">A Country is
+                            required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="Email Address" class="form-control" [class.is-invalid]="email.invalid && orderSubmitted"
+                            name="email" required ngModel #email="ngModel" email [(ngModel)]="userModel.email"/>
+                             <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="email.valid || !orderSubmitted">A valid email is
+                            required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="phone" placeholder="(###) ###-####" class="form-control" [class.is-invalid]="phone.invalid && orderSubmitted"
+                            name="phone" required ngModel
+                            pattern="^\s*(?:\+?\d{1,3})?[- (]*\d{3}(?:[- )]*\d{3})?[- ]*\d{4}(?: *[x/#]\d+)?\s*$"
+                            #phone="ngModel" phone [(ngModel)]="userModel.phone"/>
+                        <small>ie. (111) 222-3333</small>
+                        <br>
+                         <!-- rubric52
+                    The form should show validation errors if the form isn’t filled out
+                    correctly and the checkout button is pressed -->
+                        <small class="text-danger" [class.d-none]="phone.valid || !orderSubmitted">A valid Phone Number
+                            is required</small>
+                    </div>
+                    <!-- rubric50
+                    The user should see a checkout button  -->
+                    <button class="btn btn-success" type="submit">Submit Order</button>
+                </form>
+            </div>
+
+            <div class="custom-row">
+                    <!-- rubric51
+                    The checkout button should create an alert based on the users
+                    shipping details and total cost.         -->
+                <div class="alert alert-success" role="alert" [hidden]="!orderSuccess">
+                    <h4>Your order has been sent successfully and shipped to:</h4> 
+                    <p>
+                        {{userModel.name}}
+                        <br>
+                        {{userModel.address}}
+                        <br>
+                        {{userModel.city}}
+                        <br>
+                        {{userModel.state}}
+                        <br>
+                        {{userModel.country}}
+                        <br>
+                        {{userModel.email}}
+                        <br>
+                        {{userModel.number}}
+                    </p>
+                    <p class="cartSuccess">
+                        Order Total: {{ cartTotal | currency: "$"}}
+                    </p>
+                    An Order Confirmation will be sent to your email
+                    address. We will reach out to you for payment details. For any questions or concerns, please reach
+                    out to us.
+                
+                    <a routerLink="/contact"> Contact
+                        Us</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

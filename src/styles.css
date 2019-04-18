@@ -1,0 +1,276 @@
+/* rubric79
+CSS used for site styling. No inline CSS permitted and no styling
+of HTML elements directly.  */
+
+html {
+  position: relative;
+  min-height: 100vh;
+  width:100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin-bottom: 260px;
+  width:100%;
+  overflow-x: hidden; 
+}
+
+ul{
+  list-style-type: none;
+}
+
+header {
+  background-color: blanchedalmond;
+  width: 100%;
+}
+
+/* rubric72
+The footer bar should always be at the bottom of the page  */
+footer {
+  background-color: blanchedalmond;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  line-height: 25px;
+
+}
+
+@media only screen and (max-width: 765px) {
+
+  body{
+    margin-bottom: 350px;
+  }
+
+  footer {
+    height: 300px;
+    line-height: 20px;
+  }
+  
+}
+
+
+
+/* HEADER NAV*/
+.navbar-menu {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.navbar-nav .active {
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 510px) {
+  .navbar-menu {
+    margin: auto;
+  }
+  
+  .navbar-title{
+    font-size: 2rem;
+  }
+}
+
+/*CAROUSEL*/
+
+.slide-outline {
+  outline: none !important; /*removes blue border of carousel*/
+}
+
+.slide-font {
+  color: black;
+}
+
+.slide-image {
+  max-width: 40%;
+}
+
+.carousel-caption {
+  position: static;
+}
+
+/*Carousel Animation*/
+
+/* rubric11
+Whenever the product carousel changes it slide, it should do in
+an animated way  */
+.carousel-item {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease-in-out;
+  z-index: -1;
+}
+
+.carousel-item.active{
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+/* rubric02
+The user should see a button that resembles a left arrow key to
+the left of the product carousel  */
+.carousel-control-prev {
+   z-index: 15;
+}
+
+/* rubric03
+The user should see a button that resembles a right arrow key to
+the right of the product carousel  */
+.carousel-control-next {
+   z-index: 15;
+}
+
+.carousel-indicators{
+  z-index: 15;
+}
+
+/*Arrow styling*/
+.carousel-control-prev-icon {
+  background-image: url("https://apufpel.com.br/assets/img/seta_prim.png");
+}
+.carousel-control-next-icon {
+  background-image: url("https://apufpel.com.br/assets/img/seta_ult.png");
+}
+
+
+/*SHOPPING CATALOG*/
+
+/*shopping menu*/
+
+.alert-header {
+  position: fixed;
+  top: 0;
+  right: 25%;
+  width: 50%;
+  z-index: 1000;
+}
+
+.alert-text {
+   font-weight: bold;
+}
+
+.shopping-category-menu {
+  color: green;
+  cursor: pointer;
+}
+
+.shopping-category-submenu {
+  color:blue;
+}
+
+.shopping-category-submenu:hover {
+  text-decoration: underline;
+}
+
+.shopping-subcategory-grid {
+  color:blue;
+  font-weight: bold;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.shopping-subcategory-grid:hover {
+  text-decoration: underline;
+}
+
+.shopping-category-header{
+  color: green;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.shopping-category-grid{
+  color: green;
+  font-weight: bold;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.product-category:hover{
+  text-decoration: underline;
+}
+
+.img-thumbnail {
+  height: 150px;
+  width: auto;
+}
+
+/*PRODUCT SHOWCASE*/
+
+.img-showcase {
+  
+  width: 80%;
+
+}
+
+.custom-row {
+  padding-top: 5%;
+  
+}
+
+
+
+/* CART PAGE */
+
+.cart-header {
+  color: green;
+}
+
+.cart-subtotal {
+  float: left;
+}
+
+.cartSuccess {
+  font-weight: bold;
+}
+
+
+/*CONTACT PAGE*/
+
+.img-contact {
+  width: 90%
+}
+
+/*ABOUT PAGE*/
+.col-about-1 {
+
+  height: 50vh;
+ 
+  
+}
+.about-background-1 {
+  background-image: linear-gradient(to right bottom, rgba(7, 85, 201, 0), rgba(3, 21, 95, 0.8)),url("https://www.bartonfreight.com/wp-content/uploads/port.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.about-slogan {
+  
+  color:white;
+  font-weight: bold;
+  font-size: 3em;
+  margin-top: 15%;
+  
+}
+
+@media only screen and (min-width: 1600px) {
+
+  .col-about-1{
+    height:60vh;
+  }
+
+  .about-background-1 {
+    background-image:url("https://images.wallpaperscraft.com/image/road_marking_bridge_123398_1920x1080.jpg");
+    background-repeat:no-repeat;
+    background-size: 100%;
+  }
+
+  .about-slogan {
+    color:white;
+    font-weight: bold;
+    font-size: 3em;
+    margin-top: 15%;
+  }
+}

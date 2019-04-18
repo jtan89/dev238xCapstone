@@ -1,0 +1,89 @@
+    <!-- rubric13
+    Implemented in app-routing.module.ts. The home page is accessible at http://localhost:8080/#  -->
+   <!-- rubric80
+Used jQuery or Angular for data binding  -->
+   <!-- rubric04
+   The user should see some text welcoming them to the website -->
+   <h1 class="text-center custom-row">Welcome to Worldwide Importers</h1>
+
+   <div class="container custom-row">
+      <!-- rubric01
+      The user should see a product carousel that contains at least 3
+      slides of products, with each slide having between 1 and 4
+      product images.  -->
+      <!-- Implemented ngb-carousel https://ng-bootstrap.github.io/#/components/carousel/examples -->
+
+
+   <ngb-carousel [interval]="toggleSlides" class="slide-outline"  *ngIf="slides">
+      
+      <!-- rubric02 rubric03
+      implemented in styles.css -->
+
+      <!-- rubric07
+      Clicking on the right arrow should move the product carousel one
+      slide forward.  -->
+
+      <!-- rubric08 
+      Clicking on the left arrow should move the product carousel one
+      slide back  -->
+        <ng-template ngbSlide>
+        <div class="container text-center">
+            <!-- rubric09
+            If the user clicks on a product image, they should be taken to a
+            product page that is populated with the details of the clicked
+            product -->
+
+            <!-- rubric11
+            Implemented in styles.css. Whenever the product carousel changes it slide, it should do in
+            an animated way -->
+          <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[0])" [routerLink]="['/product', slides[0].subcategories[0].items[0].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[0].imagelink"></a>
+          <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[1])" [routerLink]="['/product', slides[0].subcategories[0].items[1].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[1].imagelink"></a>
+        </div>
+        <div class="carousel-caption">
+          <h4 class="slide-font">{{slides[0].subcategories[0].items[0].name}} and {{slides[0].subcategories[0].items[1].name}} Sale!</h4>
+          <p class="slide-font">{{slides[0].subcategories[0].items[0].description}}</p>
+        </div>
+        </ng-template>
+        <ng-template ngbSlide>
+            <div class="container text-center">
+              <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[2])" [routerLink]="['/product', slides[0].subcategories[0].items[2].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[2].imagelink"></a>
+              <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[3])" [routerLink]="['/product', slides[0].subcategories[0].items[3].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[3].imagelink"></a>
+          </div>
+          <div class="carousel-caption">
+            <h4 class="slide-font">{{slides[0].subcategories[0].items[2].name}} and {{slides[0].subcategories[0].items[3].name}} Sale!</h4>
+            <p class="slide-font">{{slides[0].subcategories[0].items[2].description}}</p>
+          </div>
+        </ng-template>
+        <ng-template ngbSlide>
+            <div class="container text-center">
+              <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[6])" [routerLink]="['/product', slides[0].subcategories[0].items[6].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[6].imagelink"></a>
+              <a (click)="getShowcaseProduct(slides[0].subcategories[0].items[5])" [routerLink]="['/product', slides[0].subcategories[0].items[5].name]"><img class="d-inline slide-image" [src]="slides[0].subcategories[0].items[5].imagelink"></a>
+            </div>
+          <div class="carousel-caption">
+            <h4 class="slide-font">{{slides[0].subcategories[0].items[6].name}} and {{slides[0].subcategories[0].items[5].name}} Sale!</h4>
+            <p class="slide-font">{{slides[0].subcategories[0].items[6].description}}</p>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
+<div class="container text-right">
+    <!-- rubric06
+    The user should see a toggle switch labeled “Toggle Slide Show”  -->
+    <!-- rubric10 
+    If the “Toggle Slide Show” switch is checked, the product carousel
+    should automatically move forward one slide every 3 seconds. Will still play most current slide but it will pause the slideshow right after. -->
+  <button *ngIf='!toggleSlides' type="button" class="btn btn-success btn-sm" data-toggle="button" aria-pressed="false"
+    (click)="toggleSlide()">Toggle Slideshow</button>
+  <button *ngIf='toggleSlides' type="button" class="btn btn-danger btn-sm" data-toggle="button" aria-pressed="false"
+    (click)="toggleSlide()">Stop Slideshow</button>
+</div>
+<div class="container text-center">
+    <!-- rubric05
+    The user should see a button labeled “Shop All”  -->
+    <!-- rubric12
+    If the user clicks on the “Shop All” button, the user should be
+    taken to the shopping page  -->
+  <button routerLink="/shopping" class="btn btn-primary btn-lg">Shop All</button>
+</div>
+
+</div>

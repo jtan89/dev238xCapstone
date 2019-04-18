@@ -1,0 +1,168 @@
+<!-- rubric34
+The shopping page is accessible at
+http://localhost:8080/#/shopping  -->
+<!-- rubric80
+Used jQuery or Angular for data binding  -->
+<div class="container-fluid text-center custom-row">
+  <h1>Warehouse Shopping Catalog</h1>
+</div>
+
+
+<div class="container-fluid custom-row">
+  <div class="row align-items-center">
+      <!-- rubric14 
+      The user shall see a controls bar  -->
+    <div class="col-md-4 mx-auto text-center">
+        <!-- rubric15
+        The user shall see a section in the controls bar that displays the
+        selected category name  -->
+      <span>Category:<span class="shopping-category-header"> {{selectedCategory}}</span></span>
+    </div>
+    <div class="col-md-4 mx-auto text-center">
+      <div>
+          <!-- rubric17 
+          The user shall see a toggle switch labeled “In Stock Only” in the
+          controls bar -->
+        <span class="mr-1">Only show In-Stock items</span>
+        <input (click)="toggleInStock()" type="checkbox" />
+      </div>
+    </div>
+    <div class="col-md-4 mx-auto text-center">
+        <!-- rubric18
+        The user shall see a dropdown list labeled “Sort By” that has the
+        following options: (None, Price, Alphabetical, Rating) in the
+        controls bar  -->
+      <div class="form-group">
+        <label for="sortBy" class="mr-1">Sort By:</label>
+         <!-- used ngx-order-pipe to set up order pipes https://www.npmjs.com/package/ngx-order-pipe -->
+         <!-- selected value gets passed to the template holding item collection -->
+        <select id="sortList" class="form control form-control-sm" #sortType (change)="setSorting(sortType.value)">
+          <option value="none">None</option>
+          <option value="price">Price</option>
+          <option value="name">Alphabetical</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+</div>
+<hr>
+<div *ngIf="displayStaticAlert" class="alert alert-header alert-success box-msg text-center" role="alert">
+  <div class="alert-text">Item added to Shopping Cart!</div>
+</div>
+
+<div class="container-fluid custom-row">
+  <div class="row">
+    <div class="col-sm-2 col-xs-12">
+        <!-- rubric19
+        The user shall see a category menu that displays all of the
+        available shopping categories -->
+      <div class="categories">
+          <!-- rubric25
+          Clicking on a category name in the category menu should toggle a
+          dropdown of the available subcategories within that category  -->
+        <h4>Categories</h4>
+        <div *ngFor="let products of allProducts; let i = index" class="shopping-category-menu">
+          <span class="product-category" (click)="selectCategory(i, products.category)">{{products.category}}</span>
+          <ul *ngIf="(products.category === selectedCategory)">
+            <li class="py-2" *ngFor="let subcategory of currentSubCategories; let i =index"
+              (click)="setSubCategory(i, currentSubCategories)">
+              <!-- If showInStockOnly value is false then display output. If showInStockOnly value is true, evaluate checkInStock(subcategory) and output accordingly -->
+              <div class="shopping-category-submenu">
+                {{subcategory.name}}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-10 col-xs-12">
+      <!-- This displays Primary Categories in the grid view -->
+      <div *ngIf="!currentSubProducts && showGrid ">
+        <div class="row text-center">
+          <div *ngFor="let products of allProducts; let i = index" class="col-sm-4 mb-5 shopping-category-grid">
+            <span class="product-category" (click)="selectCategory(i, products.category)">
+              {{products.category}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- rubric20
+      The user shall see a grid that is populated with the products of
+      the selected category  -->
+      <!-- This displays Sub Categories in the grid view -->
+      <div *ngIf="!currentSubProducts || !showGrid">
+        <div class="row text-center">
+          <span class="col-xs-12 col-md-4 mb-5 shopping-subcategory-grid"
+            *ngFor="let subcategory of currentSubCategories; let i =index"
+            (click)="setSubCategory(i, currentSubCategories)">
+            <!-- rubric21
+            Each grid cell shall have the name of the product displayed  -->
+            <span class="product-category">
+              {{subcategory.name}}
+            </span>
+          </span>
+        </div>
+      </div>
+      <!-- This displays products within the Sub Categories -->
+      <div *ngIf="currentSubProducts && showGrid">
+          <!-- rubric27
+          Clicking on a subcategory should change the name of the selected
+          category in the controls bar -->
+        <h3>{{ currentSubName }}</h3>
+        <!-- rubric16
+        The user shall see a section in the controls bar that displays the
+        number of items shown out of the total number of items in the
+        selected category  -->
+        <!-- rubric28
+        The section of the controls bar that displays the number of items
+        shown out of the total number of items in the selected category
+        should update whenever a new subcategory is selected or
+        whenever the “In Stock Only” switch is toggled.  -->
+        <div class="mb-5">{{ currentSubProducts.length }} products in {{ currentSubName }}</div>
+        <!-- rubric26
+        Clicking on a subcategory should repopulate the grid of products
+        with items from the subcategory that was just clicked.  -->
+        <div class="row">
+          <!-- used ngx-order-pipe {{ collection | orderBy: expression }} https://www.npmjs.com/package/ngx-order-pipe -->
+          <!-- used the ng-container so no element is created. Allows for bootstrap columns to be generated per product in loop. -->
+          <!-- rubric33
+          Changing the selected sorting method should reorder the
+          roducts in the grid  -->
+          <ng-container *ngFor="let product of currentSubProducts | orderBy: order; let i=index">
+              <!-- rubric29
+              If the “In Stock Only” toggle is checked, only items that are in
+              stock should be shown in the products grid.  -->
+            <div class="col-sm-auto col-md-4 mb-5" *ngIf="(showInStockOnly && product.stock > 0) || (!showInStockOnly) ">
+              <!-- click event returns the selected product -->
+              <!-- rubric23
+              Each grid cell shall have an image of the product displayed  -->
+              <!-- rubric31 
+              If the user clicks on a product image within a grid cell, they should be taken to a product page that is populated with the details of the clicked product -->
+              <a (click)="getShowcaseProduct(product)" [routerLink]="['/product', product.name]"><img
+                  [src]="product.imagelink" [alt]="product.name" class="img-thumbnail"></a>
+              <!-- click event returns the selected product -->
+              <!-- rubric32
+              If the user clicks on a product name within a grid cell, they should be taken to a product page that is populated with the details of the clicked product -->
+              <a (click)="getShowcaseProduct(product)" [routerLink]="['/product', product.name]">
+                <h5>{{product.name}}</h5>
+              </a>
+              <div>Rating: {{product.rating}}/5</div>
+              <div>Stock: {{product.stock}} available</div>
+              <!-- rubric22
+              Each grid cell shall have the price of the product displayed  -->
+              <div>Price: {{product.price | currency:"$"}}</div>
+              <!-- rubric24
+              Each grid cell shall have a button labeled “Add”  -->
+              <!-- rubric30 
+              Clicking on the “Add” button inside a grid cell should add 1 unit of the associated product to the shopping cart -->
+              <button class="btn btn-primary btn-sm" (click)="addToCart(product)">
+                Add to Cart
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

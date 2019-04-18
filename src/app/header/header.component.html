@@ -1,0 +1,33 @@
+<!-- rubric68
+The header bar should always be at the top of the page -->
+<!-- implemented in css.styles -->
+<header class="page-header">
+  <div class="container-fluid">
+
+    <nav class="navbar navbar-expand-md navbar-light">
+      <a routerLink="/" class="navbar-brand"><h1 class="navbar-title">Worldwide Importers</h1></a>
+      <div id="navbarNav" class="navbar-menu">
+        <div class="navbar-nav">
+          <!-- rubric65
+          User shall see a link to the home page -->
+          <!-- rubric69
+          Clicking the home page link should take the user to the home
+          page -->
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item nav-link">Home </a>
+          <!-- rubric66
+          User shall see a link to the shopping page  -->
+          <!-- rubric70
+          Clicking the shopping page link should take the user to the
+          shopping page -->
+          <a routerLink="/shopping"routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item nav-link" >Shop</a>
+          <!-- rubric67
+          User shall see a link to the cart page  -->
+          <!-- rubric71
+          Clicking the cart page link should take the user to the cart page -->
+          <a routerLink="/cart"routerLinkActive="active" class="nav-item nav-link" >Cart</a>
+        </div>
+      </div>
+    </nav>
+    
+  </div>
+</header>
