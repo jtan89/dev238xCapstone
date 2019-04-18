@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
       this.productsService.getData()
       .subscribe((data) => {
         this.slides = data;
+        this.productsService.cachedProductData = data;
       });
     }
   }
